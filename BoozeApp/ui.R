@@ -12,8 +12,9 @@ shinyUI(fluidPage(
     # Controls
     sidebarLayout(
       sidebarPanel(
-        helpText("Data from data.nola.gov"),
-        h4("Neighborhood ABOs")
+        h4("Neighborhood ABOs"),
+        h3("Shape files from Zillow"),
+        h3("Data from data.nola.gov")
         
 #         selectInput("shape", 
 #                     label = h3("Draw Areas"), 
