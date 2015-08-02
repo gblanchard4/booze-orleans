@@ -26,4 +26,4 @@ RColorBrewer
 scales
 lattice
 plyr
-rgdla
+rgdal

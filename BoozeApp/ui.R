@@ -13,23 +13,24 @@ shinyUI(fluidPage(
     sidebarLayout(
       sidebarPanel(
         helpText("Data from data.nola.gov"),
+        h4("Neighborhood ABOs")
         
-        selectInput("shape", 
-                    label = h3("Draw Areas"), 
-                    choices = c(
-                      "Zip Codes",
-                      "Historical Districts",
-                      "School Districts",
-                      selected = "Zip Codes"
-                    )
-                  )
+#         selectInput("shape", 
+#                     label = h3("Draw Areas"), 
+#                     choices = c(
+#                       "Neighborhoods",
+#                       "Historical Districts",
+#                       "School Districts",
+#                       selected = "Zip Codes"
+#                     )
+#                   )
       ),
 
       # Show a plot of the generated distribution
       mainPanel(
         h2("New Orleans Alcohol Beverage Outlets"),
-        leafletOutput("map"),
-        textOutput("shape")
+        leafletOutput("map")#,
+        #textOutput("shape")
       )
     )
 ))
