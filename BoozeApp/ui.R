@@ -12,11 +12,21 @@ shinyUI(fluidPage(
     # Controls
     sidebarLayout(
       sidebarPanel(
-        h4("Neighborhood ABOs"),
-        h3("Shape files from Zillow"),
-        h3("Data from data.nola.gov")
-        
-#         selectInput("shape", 
+        tags$div(
+          class="header",
+          checked=NA,
+          tags$p("Shape files from"),
+          tags$a(href="http://www.zillow.com/howto/api/neighborhood-boundaries.htm","Zillow"),
+          tags$p("are licensed under"),
+          tags$a(href="http://creativecommons.org/licenses/by-sa/3.0/","CC")
+        ),
+        tags$div(
+          class="header",
+          checked=NA,
+          tags$p("Data from "),
+          tags$a(href="http://data.nola.gov","data.nola.gov")
+        )
+      #         selectInput("shape", 
 #                     label = h3("Draw Areas"), 
 #                     choices = c(
 #                       "Neighborhoods",

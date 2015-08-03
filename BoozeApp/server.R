@@ -11,8 +11,6 @@ library(rgdal)
 library(RSocrata)
 booze <- read.socrata('https://data.nola.gov/resource/uiry-as9x.json')
 hood_shape <- readOGR("data/ZillowNeighborhoods-LA/", "ZillowNeighborhoods-LA", verbose = FALSE)
-school_shape <- readOGR("data/NOLA_School_Board_Districts/", "NOLA_School_Board_Districts", verbose = FALSE)
-
 # Define server logic
 shinyServer(function(input, output, session) {
   
