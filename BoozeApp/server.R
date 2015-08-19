@@ -5,18 +5,16 @@ library(scales)
 library(lattice)
 library(plyr)
 library(rgdal)
-
+library(RSocrata)
 
 # Data
-library(RSocrata)
 booze <- read.socrata('https://data.nola.gov/resource/uiry-as9x.json')
 hood_shape <- readOGR("data/ZillowNeighborhoods-LA/", "ZillowNeighborhoods-LA", verbose = FALSE)
 
 # DWI Data
-
-dwi.2011 <- read.csv(file = "data/2011_DWI.geo.csv")
-names(dwi.2011) <- c("date","address","lat","lon")
-dwi.2011$date <- as.Date(dwi.2011$date, "%m/%d/%Y")
+dwi.all <- read.csv(file = "data/dwi.geo.csv")
+names(dwi.all) <- c("date","address","lat","lon","freq")
+dwi.all$date <- as.Date(dwi.all$date, "%m/%d/%Y")
 
 
 # Define server logic
@@ -62,8 +60,6 @@ shinyServer(function(input, output, session) {
   
   observe({ 
         DWI <- filteredDWI()
-        
-        print(DWI)
         
         leafletProxy("map") %>%
         clearMarkers() %>%

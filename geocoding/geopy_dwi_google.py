@@ -9,8 +9,8 @@ geolocator = GoogleV3()
 
 #with open("2011_DWI.csv",'r') as addresses, open("2011_DWI.geo.csv", 'w') as output, open("2011_DWI.errors.csv", 'w') as err:
 #with open("2012_DWI.csv",'r') as addresses, open("2012_DWI.geo.csv", 'w') as output, open("2012_DWI.errors.csv", 'w') as err:
-with open("2013_DWI.csv",'r') as addresses, open("2013_DWI.geo.csv", 'w') as output, open("2013_DWI.errors.csv", 'w') as err:
-#with open("2014_DWI.csv",'r') as addresses, open("2014_DWI.geo.csv", 'w') as output, open("2014_DWI.errors.csv", 'w') as err:
+#with open("2013_DWI.csv",'r') as addresses, open("2013_DWI.geo.csv", 'w') as output, open("2013_DWI.errors.csv", 'w') as err:
+with open("2014_DWI.csv",'r') as addresses, open("2014_DWI.geo.csv", 'w') as output, open("2014_DWI.errors.csv", 'w') as err:
 	for line in addresses:
 		location = geolocator.geocode(line.rstrip('\n').split(',')[1]+"New Orelans", timeout=10)
 		try:

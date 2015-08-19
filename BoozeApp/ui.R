@@ -26,6 +26,13 @@ shinyUI(bootstrapPage(
           tags$p("Data from "),
           tags$a(href="http://data.nola.gov","data.nola.gov")
         ),
+        tags$div(
+          class="header",
+          checked=NA,
+          tags$p("Geocoded with "),
+          tags$a(href="https://developers.google.com/maps/documentation/geocoding/intro","Google Geocoding API"),
+          tags$p("Some errors, I know")
+        ),
         h4("DWI DATE"),
         dateRangeInput(
           "dateRange",
