@@ -11,14 +11,29 @@ library(rgdal)
 library(RSocrata)
 booze <- read.socrata('https://data.nola.gov/resource/uiry-as9x.json')
 hood_shape <- readOGR("data/ZillowNeighborhoods-LA/", "ZillowNeighborhoods-LA", verbose = FALSE)
+
+# DWI Data
+
+dwi.2011 <- read.csv(file = "data/2011_DWI.geo.csv")
+names(dwi.2011) <- c("date","address","lat","lon")
+dwi.2011$date <- as.Date(dwi.2011$date, "%m/%d/%Y")
+
+
 # Define server logic
 shinyServer(function(input, output, session) {
   
+#   filteredData <- reactive({
+#     quakes[quakes$mag >= input$range[1] & quakes$mag <= input$range[2],]
+#   })
+  
+  filteredDWI <- reactive({
+    dwi.2011[dwi.2011$date %in% c(as.Date(input$dateRange[1]),as.Date(input$dateRange[2])),]
+  })
+  
+  
   # Create Map
   output$map <- renderLeaflet({
-    leaflet(
-     
-    ) %>%
+    leaflet() %>%
     addTiles(
       urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
       attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
@@ -36,44 +51,36 @@ shinyServer(function(input, output, session) {
       clusterOptions = markerClusterOptions()
     ) %>%
     addPolygons(
-      data=hood_shape,
-      weight=2,
-      color ='#FF0000',
+      data = hood_shape,
+      weight = 2,
+      color = '#FF0000',
       fill = FALSE
     )
   })
   
-  #Select Shape
-  #output$shape <- renderText({
-  #  paste("You have selected", input$shape)
-  #})
   
-  # Default Observation
-  observe({
-      map <- leafletProxy("map")
+  observe({ 
+        leafletProxy("map") %>%
+        clearMarkers() %>%
+        addCircleMarkers(
+          filteredDWI(),
+          filteredDWI$lon,
+          filteredDWI$lat,
+          weight = 1,
+          radius= 5,
+          fillOpacity = 0.5,
+          color = '#F1234'
+          #popup = paste(as.character(filteredDWI$address), as.character(filteredDWI$date), sep=": ")
+        )
   })
-#   # Neighborhood Layer
-#   observe({
-#     if (input$shape == 'Neighborhoods')
-#     leafletProxy("map") %>% clearShapes() %>%
-#       addPolygons(
-#         data=zip_shape,
-#         weight=2,
-#         color ='#FF0000',
-#         fill = FALSE
-#       )
-#   })
-#   # School Layer
-#   observe({
-#     if (input$shape == 'School Districts')
-#       leafletProxy("map") %>% clearShapes() %>%
-#       addPolygons(
-#         data=school_shape,
-#         weight=2,
-#         color ='#FF0000',
-#         fill = FALSE
-#       )
-#   })
+  
+  observe({
+    output$dateRangeText  <- renderText({
+      paste("Date Range is", 
+            paste(as.character(input$dateRange), collapse = " to ")
+      )
+    })
+  })
 
   
 })

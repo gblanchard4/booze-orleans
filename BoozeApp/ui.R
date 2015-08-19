@@ -4,7 +4,7 @@ library(leaflet)
 source("helpers.R")
 
 # Define UI for application that draws a histogram
-shinyUI(fluidPage(
+shinyUI(bootstrapPage(
     # Application title
     titlePanel("Booze-Orleans"),
   
@@ -25,23 +25,26 @@ shinyUI(fluidPage(
           checked=NA,
           tags$p("Data from "),
           tags$a(href="http://data.nola.gov","data.nola.gov")
-        )
-      #         selectInput("shape", 
-#                     label = h3("Draw Areas"), 
-#                     choices = c(
-#                       "Neighborhoods",
-#                       "Historical Districts",
-#                       "School Districts",
-#                       selected = "Zip Codes"
-#                     )
-#                   )
+        ),
+        h4("DWI DATE"),
+        dateRangeInput(
+          "dateRange",
+          "DWI Date Range",
+          start = "01-01-2011",
+          end = "01-01-2015", 
+          format = "mm-dd-yyyy",
+          startview = "month",
+          weekstart = 0,
+          language = "en",
+          separator = " to ")
+        
       ),
 
       # Show a plot of the generated distribution
       mainPanel(
         h2("New Orleans Alcohol Beverage Outlets"),
-        leafletOutput("map")#,
-        #textOutput("shape")
+        leafletOutput("map"),
+        verbatimTextOutput("dateRangeText")
       )
     )
 ))
