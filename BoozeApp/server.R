@@ -27,7 +27,8 @@ shinyServer(function(input, output, session) {
 #   })
   
   filteredDWI <- reactive({
-    dwi.2011[dwi.2011$date %in% c(as.Date(input$dateRange[1]),as.Date(input$dateRange[2])),]
+    #dwi.2011[dwi.2011$date %in% c(as.Date(input$dateRange[1]),as.Date(input$dateRange[2])),]
+    dwi.2011[dwi.2011$date >= as.Date(input$dateRange[1]) & dwi.2011$date <= as.Date(input$dateRange[2]),]
   })
   
   
@@ -60,17 +61,23 @@ shinyServer(function(input, output, session) {
   
   
   observe({ 
+        DWI <- filteredDWI()
+        
+        print(DWI)
+        
         leafletProxy("map") %>%
         clearMarkers() %>%
         addCircleMarkers(
-          filteredDWI(),
-          filteredDWI$lon,
-          filteredDWI$lat,
+          data = DWI,
+          lng =  DWI$lon,
+          lat = DWI$lat,
           weight = 1,
           radius= 5,
           fillOpacity = 0.5,
-          color = '#F1234'
-          #popup = paste(as.character(filteredDWI$address), as.character(filteredDWI$date), sep=": ")
+          color = '#F1234',
+          popup = paste(as.character(DWI$address), as.character(DWI$date), sep=": ")#,
+          #clusterOptions = markerClusterOptions()
+          
         )
   })
   
