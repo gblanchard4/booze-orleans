@@ -12,7 +12,7 @@ booze <- read.socrata('https://data.nola.gov/resource/uiry-as9x.json')
 hood_shape <- readOGR("data/ZillowNeighborhoods-LA/", "ZillowNeighborhoods-LA", verbose = FALSE)
 
 # DWI Data
-dwi.all <- read.csv(file = "data/dwi.geo.csv")
+dwi.all <- read.csv(file = "data/dwi.geo.freq.csv")
 names(dwi.all) <- c("date","address","lat","lon","freq")
 dwi.all$date <- as.Date(dwi.all$date, "%m/%d/%Y")
 
@@ -26,7 +26,7 @@ shinyServer(function(input, output, session) {
   
   filteredDWI <- reactive({
     #dwi.2011[dwi.2011$date %in% c(as.Date(input$dateRange[1]),as.Date(input$dateRange[2])),]
-    dwi.2011[dwi.2011$date >= as.Date(input$dateRange[1]) & dwi.2011$date <= as.Date(input$dateRange[2]),]
+    dwi.all[dwi.all$date >= as.Date(input$dateRange[1]) & dwi.all$date <= as.Date(input$dateRange[2]),]
   })
   
   
